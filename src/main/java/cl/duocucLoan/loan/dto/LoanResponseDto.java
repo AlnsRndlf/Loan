@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class LoanResponseDto {
 
+    private Long idLoan;
+
     private BookResponseDto book;
     private UserResponseDto user;
 
