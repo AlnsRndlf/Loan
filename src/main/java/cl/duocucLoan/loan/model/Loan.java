@@ -25,7 +25,7 @@ public class Loan {
     @Column(name="user_rut")
     private String userRut;
 
-    @Column(name="loand_date")
+    @Column(name="loan_date")
     private LocalDate loanDate;
 
     @Column(name="due_date")

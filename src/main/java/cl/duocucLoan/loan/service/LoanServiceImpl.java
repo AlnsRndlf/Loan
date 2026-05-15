@@ -82,8 +82,8 @@ public class LoanServiceImpl implements ILoanService {
         if (loan == null) {
             throw new RuntimeException("prestamo de " +  idLoan + " no encontrado");
         }
-        if  (loan.getReturnedDate() != null) {
-            throw new RuntimeException("libro marcado como devuelto"); //pq hay fecha en el entity
+        if  (loan.getReturnedDate() != null) { //pq ya hay una
+            throw new RuntimeException("libro marcado como devuelto"); // fecha en el entity
         }
         loan.setReturnedDate(LocalDate.now());
         bookClient.updateStock(loan.getBookIsbn(),1);
