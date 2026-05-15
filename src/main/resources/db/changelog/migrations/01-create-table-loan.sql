@@ -9,3 +9,7 @@ create table loans (
     due_date date not null,
     returned_date date not null
 );
+
+-- changeset alonso:2
+
+alter table loans modify returned_date date null;
