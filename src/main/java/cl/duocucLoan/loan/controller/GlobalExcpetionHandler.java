@@ -15,7 +15,6 @@ public class GlobalExcpetionHandler {
         ExceptionDto error = new ExceptionDto(
                 "error de  negocio",
                 ex.getMessage()
-                //ex.getRequestURI()
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
