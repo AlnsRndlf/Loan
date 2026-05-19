@@ -10,4 +10,7 @@ public interface UserClient {
 
     @GetMapping("/{rut}")
     UserResponseDto getUserByRut(@PathVariable("rut") String rut);
+
+    @GetMapping("/{email}")
+    UserResponseDto getUserByEmail(@PathVariable("email") String email);
 }

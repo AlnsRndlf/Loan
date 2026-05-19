@@ -2,10 +2,7 @@ package cl.duocucLoan.loan.service;
 
 import cl.duocucLoan.loan.client.BookClient;
 import cl.duocucLoan.loan.client.UserClient;
-import cl.duocucLoan.loan.dto.BookResponseDto;
-import cl.duocucLoan.loan.dto.LoanRequestDto;
-import cl.duocucLoan.loan.dto.LoanResponseDto;
-import cl.duocucLoan.loan.dto.UserResponseDto;
+import cl.duocucLoan.loan.dto.*;
 import cl.duocucLoan.loan.model.Loan;
 import cl.duocucLoan.loan.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +18,7 @@ public class LoanServiceImpl implements ILoanService {
     private final LoanRepository loanRepository;
     private final UserClient userClient;
     private final BookClient bookClient;
+    private final KafkaProducer producer;
 
     private LoanResponseDto toDto(Loan loan) {
         UserResponseDto userDto = userClient.getUserByRut(loan.getUserRut());
@@ -104,8 +102,15 @@ public class LoanServiceImpl implements ILoanService {
         Loan loan = toEntity(request);
         bookClient.updateStock(request.getBookIsbn(), -1);
         Loan savedLoan = loanRepository.save(loan);
+        LoanEventDto event = new LoanEventDto(
+                savedLoan.getIdLoan(),
+                savedLoan.getUserRut(),
+                savedLoan.getBookIsbn(),
+                savedLoan.getLoanDate(),
+                userDto.getUserEmail()
+        );
+        producer.sendLoandEvent(event);
         return toDto(savedLoan);
-
     }
 
 }
